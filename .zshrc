@@ -58,6 +58,11 @@ if [ -d "$HOME/.sdkman" ];then
   [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 fi
 
+# Dircolors
+if [[ -s "$HOME/.dir_colors/dircolors" ]]; then
+  eval `dircolors $HOME/.dir_colors/dircolors`
+fi
+
 # ANTIGEN
 source ~/.antigen/antigen/antigen.zsh
 
