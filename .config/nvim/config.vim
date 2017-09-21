@@ -1,6 +1,9 @@
 "" Theme
 color dracula
 
+set guifont=UbuntuMono\ Nerd\ Font\ Regular\ 11
+set encoding=utf-8
+
 "" NERDTree configuration
 let g:NERDTreeChDirMode=2
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '\.so$', '\.o$']
@@ -14,6 +17,11 @@ let g:NERDTreeMinimalUI = 1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 nnoremap <silent> <F2> :NERDTreeFind<CR>
 noremap <F3> :NERDTreeToggle<CR>
+
+"" NERDTree syntax highlighting
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
 
 "" fzf.vim
 set wildmode=list:longest,list:full
@@ -127,7 +135,10 @@ nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 
-" vim-airline
+"" vim-airline
+" required if using https://github.com/bling/vim-airline
+let g:airline_powerline_fonts=1
+
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
