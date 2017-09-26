@@ -48,30 +48,27 @@ nnoremap <silent> <leader>e :FZF -m<CR>
 "" editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
-"" syntastic
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '⚠'
-let g:syntastic_auto_loc_list=1
-let g:syntastic_aggregate_errors = 1
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
-let g:syntastic_phpcs_args = '--standard="WordPress"'
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_c_checkers = ['clang_check']
-let g:syntastic_cpp_checkers = ['clang_check']
-let g:syntastic_loc_list_height = 5
-let g:syntastic_java_javac_classpath = '/home/jefri/Development/android-sdk/platforms/android-25/*.jar'
+"" Ale
+let g:ale_linters = {'javascript': ['eslint', 'flow']}
+let g:ale_fixers = {
+\   'javascript': [
+\     'eslint',
+\     'prettier_eslint',
+\     'remove_trailing_lines',
+\   ],
+\}
+" airline 
+let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#ale#error_symbol = '✗'
+let g:airline#extensions#ale#warning_symbol = '⚠'
+" error/warning sign & message
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚠'
+let g:ale_echo_msg_error_str = '✗'
+let g:ale_echo_msg_warning_str = '⚠'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" ALEFix shortcut
+nmap <F8> <Plug>(ale_fix)
 
 "" tern
 let g:tern#command = ['tern']
@@ -112,9 +109,6 @@ call deoplete#custom#source('_',
 		\ 'matchers', ['matcher_head'])
 call deoplete#custom#source('_',
 		\ 'sorters', ['sorter_word'])
-
-"" Neosnippet
-"let g:neosnippet#enable_completed_snippet = 1
 
 "" Supertab
 autocmd FileType javascript,javascript.jsx let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
