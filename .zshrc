@@ -68,6 +68,14 @@ if [[ -s "$HOME/.dir_colors/dircolors" ]]; then
   eval `dircolors $HOME/.dir_colors/dircolors`
 fi
 
+if [[ -s "$HOME/Development/cmakepp" ]]; then
+  alias icmakepp="cmake -P $HOME/Development/cmakepp/cmakepp.cmake icmake"
+  alias cmakepp="cmake -P $HOME/Development/cmakepp/cmakepp.cmake"
+  alias pkg="cmake -P $HOME/Development/cmakepp/cmakepp.cmake cmakepp_project_cli"
+  alias cml="cmake -P $HOME/Development/cmakepp/cmakepp.cmake cmakelists_cli"
+  export CMAKEPP_PATH=$HOME/Development/cmakepp/cmakepp.cmake
+fi
+
 # ANTIGEN
 source ~/.antigen/antigen/antigen.zsh
 
@@ -87,7 +95,7 @@ antigen bundle history-substring-search
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Load the theme.
-antigen theme robbyrussell
+antigen theme jnrowe
 
 # Tell antigen that you're done.
 antigen apply
