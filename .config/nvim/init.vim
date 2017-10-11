@@ -17,7 +17,7 @@ if !filereadable(vimplug_exists)
   autocmd VimEnter * PlugInstall
 endif
 
-" Required:
+" Required
 call plug#begin(expand('~/.config/nvim/plugged'))
 
 if filereadable(expand("~/.config/nvim/bundles.vim"))
