@@ -50,13 +50,55 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 "" Ale
 let g:ale_linters = {'javascript': ['eslint', 'flow']}
+let g:ale_linters = {'c': [ 'clang' ] }
+let g:ale_c_clang_options = '-Wall '.
+  \ '-Wextra '.
+  \ '-Werror '.
+  \ '-Wno-long-long '.
+  \ '-Wno-variadic-macros '.
+  \ '-Wno-unused-parameter '.
+  \ '-fexceptions '.
+  \ '-DNDEBUG '.
+  \ '-std=c11 '.
+  \ '-x c '.
+  \ '-I/usr/local/include '.
+  \ '-I/usr/lib/llvm-4.0/lib/clang/4.0.1/include '.
+  \ '-I/usr/include/x86_64-linux-gnu '.
+  \ '-I/usr/include '.
+  \ '-I/usr/include/gtk-3.0 '.
+  \ '-I/usr/include/at-spi2-atk/2.0 '.
+  \ '-I/usr/include/at-spi-2.0 '.
+  \ '-I/usr/include/dbus-1.0 '.
+  \ '-I/usr/lib/x86_64-linux-gnu/dbus-1.0/include '.
+  \ '-I/usr/include/gtk-3.0 '.
+  \ '-I/usr/include/gio-unix-2.0/ '.
+  \ '-I/usr/include/mirclient '.
+  \ '-I/usr/include/mircore '.
+  \ '-I/usr/include/mircookie '.
+  \ '-I/usr/include/cairo '.
+  \ '-I/usr/include/pango-1.0 '.
+  \ '-I/usr/include/harfbuzz '.
+  \ '-I/usr/include/pango-1.0 '.
+  \ '-I/usr/include/atk-1.0 '.
+  \ '-I/usr/include/cairo '.
+  \ '-I/usr/include/pixman-1 '.
+  \ '-I/usr/include/freetype2 '.
+  \ '-I/usr/include/libpng16 '.
+  \ '-I/usr/include/gdk-pixbuf-2.0 '.
+  \ '-I/usr/include/libpng16 '.
+  \ '-I/usr/include/glib-2.0 '.
+  \ '-I/usr/lib/x86_64-linux-gnu/glib-2.0/include'
+
+let g:ale_fix_on_save=1
 let g:ale_fixers = {
-\   'javascript': [
-\     'eslint',
-\     'prettier_eslint',
-\     'remove_trailing_lines',
-\   ],
+  \ 'javascript': [ 'eslint', 'prettier_eslint', 'remove_trailing_lines' ],
+  \ 'typescript': [ 'prettier', 'remove_trailing_lines' ],
+  \ 'c': [ 'clang-format', 'remove_trailing_lines' ],
+  \ 'cpp': [ 'clang-format', 'remove_trailing_lines' ],
+  \ 'h': [ 'clang-format', 'remove_trailing_lines' ],
+  \ 'hpp': [ 'clang-format', 'remove_trailing_lines' ],
 \}
+
 " airline 
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#ale#error_symbol = '✗'
@@ -103,23 +145,24 @@ let g:deoplete#omni#functions.javascript = [
   \ 'javascriptcomplete#CompleteJS'
 \]
 
-call deoplete#custom#source('ultisnips',
-    \ 'rank', 1000)
-call deoplete#custom#source('_',
-		\ 'matchers', ['matcher_head'])
-call deoplete#custom#source('_',
-		\ 'sorters', ['sorter_word'])
+call deoplete#custom#source('ultisnips', 'rank', 1000)
+call deoplete#custom#source('_', 'matchers', ['matcher_head'])
+call deoplete#custom#source('_', 'sorters', ['sorter_word'])
 
-"" Supertab
-autocmd FileType javascript,javascript.jsx let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" Ycm
+let g:ycm_filetype_whitelist = { 'cpp' : 1, 'c' : 1, 'h' : 1, 'hpp' : 1 }
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
-"" Ultisnip
-let g:UltiSnipsExpandTrigger="<C-space>"
-
-"" fixmyjs
-let g:fixmyjs_use_local = 1
-let g:fixmyjs_rc_filename = ['.eslintrc', '.eslintrc.json', '.eslintrc.js']
+let g:ulti_expand_or_jump_res = 0
+function ExpandSnippetOrCarriageReturn()
+  let snippet = UltiSnips#ExpandSnippetOrJump()
+  if g:ulti_expand_or_jump_res > 0
+    return snippet
+  else
+    return "\<CR>"
+  endif
+endfunction
+inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 
 "" Tmux Navigator
 let g:tmux_navigator_no_mappings = 1
@@ -192,4 +235,6 @@ augroup omnifuncs
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType c,cpp,h,hpp let b:deoplete_disable_auto_complete=1
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup end
