@@ -18,9 +18,9 @@ Plug 'scrooloose/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim
 Plug 'sheerun/vim-polyglot' | Plug 'pangloss/vim-javascript' | Plug 'mxw/vim-jsx' | Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'stfl/meson.vim'
 Plug 'ternjs/tern_for_vim'
+Plug 'tpope/vim-markdown'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/gtk-vim-syntax'
 Plug 'vim-scripts/tinymode.vim'
-Plug 'tpope/vim-markdown'
 Plug 'w0rp/ale'
