@@ -48,6 +48,11 @@ nnoremap <silent> <leader>e :FZF -m<CR>
 "" editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
+" airline 
+let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#ale#error_symbol = '✗'
+let g:airline#extensions#ale#warning_symbol = '⚠'
+
 "" Ale
 let g:ale_linters = {'javascript': ['eslint', 'flow']}
 let g:ale_linters = {'c': [ 'gcc', 'clang' ] }
@@ -111,6 +116,20 @@ let g:ale_fixers = {
   \ 'hpp': [ 'clang-format', 'remove_trailing_lines' ],
 \}
 
+"" android classpath
+let g:ale_java_javac_classpath='~/Development/android-sdk/platforms/android-23/*.jar'
+
+
+" vim android
+let g:android_sdk_path='~/Development/android-sdk'
+
+"" error/warning sign & message
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚠'
+let g:ale_echo_msg_error_str = '✗'
+let g:ale_echo_msg_warning_str = '⚠'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
 "" shortcut
 nmap <F8> <Plug>(ale_fix)
 nmap <leader>ad <Plug>(ale_detail)
@@ -118,17 +137,6 @@ nmap <leader>af <Plug>(ale_fix)
 nmap <leader>al <Plug>(ale_lint)
 nmap <leader>an <Plug>(ale_next)
 nmap <leader>ap <Plug>(ale_previous)
-
-" airline 
-let g:airline#extensions#ale#enabled = 1
-let g:airline#extensions#ale#error_symbol = '✗'
-let g:airline#extensions#ale#warning_symbol = '⚠'
-" error/warning sign & message
-let g:ale_sign_error = '✗'
-let g:ale_sign_warning = '⚠'
-let g:ale_echo_msg_error_str = '✗'
-let g:ale_echo_msg_warning_str = '⚠'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
 "" tern
 let g:tern#command = ['tern']
@@ -166,6 +174,11 @@ let g:deoplete#omni#functions.javascript = [
 call deoplete#custom#source('ultisnips', 'rank', 1000)
 call deoplete#custom#source('_', 'matchers', ['matcher_head'])
 call deoplete#custom#source('_', 'sorters', ['sorter_word'])
+
+" Javacomplete
+let g:JavaComplete_GradleExecutable = 'gradle'
+let g:JavaComplete_LibsPath='~/Development/android-sdk/platforms/android-23/*.jar'
+let g:JavaComplete_SourcesPath = 'android/app/src'
 
 " Ycm
 let g:ycm_filetype_whitelist = { 'cpp' : 1, 'c' : 1, 'h' : 1, 'hpp' : 1 }
@@ -254,6 +267,7 @@ augroup omnifuncs
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd FileType c,cpp,h,hpp let b:deoplete_disable_auto_complete=1
+  autocmd FileType java setlocal omnifunc=javacomplete#Complete
   autocmd BufRead,BufNewFile *.h,*.c set filetype=c
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup end
