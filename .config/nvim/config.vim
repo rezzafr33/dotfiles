@@ -50,19 +50,8 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 "" Ale
 let g:ale_linters = {'javascript': ['eslint', 'flow']}
-let g:ale_linters = {'c': [ 'clang' ] }
-let g:ale_c_clang_options = '-Wall '.
-  \ '-Wextra '.
-  \ '-Werror '.
-  \ '-Wno-long-long '.
-  \ '-Wno-variadic-macros '.
-  \ '-Wno-unused-parameter '.
-  \ '-fexceptions '.
-  \ '-DNDEBUG '.
-  \ '-std=c11 '.
-  \ '-x c '.
-  \ '-I/usr/local/include '.
-  \ '-I/usr/lib/llvm-4.0/lib/clang/4.0.1/include '.
+let g:ale_linters = {'c': [ 'gcc', 'clang' ] }
+let _c_compiler_options = '-I/usr/local/include '.
   \ '-I/usr/include/x86_64-linux-gnu '.
   \ '-I/usr/include '.
   \ '-I/usr/include/gtk-3.0 '.
@@ -89,6 +78,29 @@ let g:ale_c_clang_options = '-Wall '.
   \ '-I/usr/include/glib-2.0 '.
   \ '-I/usr/lib/x86_64-linux-gnu/glib-2.0/include'
 
+let g:ale_c_gcc_options = '-Wall '.
+  \ '-Wextra '.
+  \ '-Werror '.
+  \ '-Wno-long-long '.
+  \ '-Wno-variadic-macros '.
+  \ '-Wno-unused-parameter '.
+  \ '-fexceptions '.
+  \ '-std=c99 '.
+  \ _c_compiler_options
+
+let g:ale_c_clang_options = '-Wall '.
+  \ '-Wextra '.
+  \ '-Werror '.
+  \ '-Wno-long-long '.
+  \ '-Wno-variadic-macros '.
+  \ '-Wno-unused-parameter '.
+  \ '-fexceptions '.
+  \ '-DNDEBUG '.
+  \ '-std=c11 '. 
+  \ '-x c ' . 
+  \ '-I/usr/lib/llvm-4.0/lib/clang/4.0.1/include '.
+  \ _c_compiler_options
+
 let g:ale_fix_on_save=1
 let g:ale_fixers = {
   \ 'javascript': [ 'eslint', 'prettier_eslint', 'remove_trailing_lines' ],
@@ -98,6 +110,14 @@ let g:ale_fixers = {
   \ 'h': [ 'clang-format', 'remove_trailing_lines' ],
   \ 'hpp': [ 'clang-format', 'remove_trailing_lines' ],
 \}
+
+"" shortcut
+nmap <F8> <Plug>(ale_fix)
+nmap <leader>ad <Plug>(ale_detail)
+nmap <leader>af <Plug>(ale_fix)
+nmap <leader>al <Plug>(ale_lint)
+nmap <leader>an <Plug>(ale_next)
+nmap <leader>ap <Plug>(ale_previous)
 
 " airline 
 let g:airline#extensions#ale#enabled = 1
@@ -109,8 +129,6 @@ let g:ale_sign_warning = '⚠'
 let g:ale_echo_msg_error_str = '✗'
 let g:ale_echo_msg_warning_str = '⚠'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-" ALEFix shortcut
-nmap <F8> <Plug>(ale_fix)
 
 "" tern
 let g:tern#command = ['tern']
@@ -236,5 +254,6 @@ augroup omnifuncs
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd FileType c,cpp,h,hpp let b:deoplete_disable_auto_complete=1
+  autocmd BufRead,BufNewFile *.h,*.c set filetype=c
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup end
