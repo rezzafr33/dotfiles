@@ -4,6 +4,11 @@ color dracula
 set guifont=UbuntuMono\ Nerd\ Font\ Regular\ 11
 set encoding=utf-8
 
+"" Chromatica
+let g:chromatica#enable_at_startup=1
+let g:chromatica#libclang_path='/usr/lib/llvm-4.0/lib/libclang.so.1'
+let g:chromatica#responsive_mode=1
+
 "" NERDTree configuration
 let g:NERDTreeChDirMode=2
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '\.so$', '\.o$']
@@ -138,7 +143,7 @@ nmap <leader>al <Plug>(ale_lint)
 nmap <leader>an <Plug>(ale_next)
 nmap <leader>ap <Plug>(ale_previous)
 
-"" tern
+" tern
 let g:tern#command = ['tern']
 let g:tern#arguments = ['--persistent']
 let g:tern_request_timeout = 1
@@ -174,6 +179,24 @@ let g:deoplete#omni#functions.javascript = [
 call deoplete#custom#source('ultisnips', 'rank', 1000)
 call deoplete#custom#source('_', 'matchers', ['matcher_head'])
 call deoplete#custom#source('_', 'sorters', ['sorter_word'])
+
+" dasht
+let g:dasht_filetype_docsets = {}
+let g:dasht_filetype_docsets['blade'] = ['html', 'php']
+let g:dasht_filetype_docsets['java'] = ['^spring_', 'hibernate']
+let g:dasht_filetype_docsets['c'] = ['^c$', 'glib', 'gdk3', 'gtk3', 'libgda', 'pango', 'gobject', 'gio']
+let g:dasht_filetype_docsets['cpp'] = ['^c$', 'glib', 'gdk3', 'gtk3', 'libgda', 'pango', 'gobject', 'gio']
+let g:dasht_filetype_docsets['javascript'] = ['react', 'react_native']
+let g:dasht_filetype_docsets['javascript.jsx'] = ['react', 'react_native']
+
+"" search related docsets
+nnoremap <silent> gz :call Dasht([expand('<cWORD>'), expand('<cword>')])<Return>
+"" search ALL the docsets
+nnoremap <silent> gZ :call Dasht([expand('<cWORD>'), expand('<cword>')], '!')<Return>
+"" search related docsets
+vnoremap <silent> gz y:<C-U>call Dasht(getreg(0))<Return>
+"" search ALL the docsets
+vnoremap <silent> gZ y:<C-U>call Dasht(getreg(0), '!')<Return>
 
 " Javacomplete
 let g:JavaComplete_GradleExecutable = 'gradle'
