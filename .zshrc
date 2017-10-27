@@ -11,6 +11,9 @@ export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 # MANPATH
 export MANPATH=$HOME/.local/man:$HOME/.local/share/man:$MANPATH
 
+# Completion PATH
+fpath+=$HOME/.local/etc/zsh/completions/
+
 # Export LESS
 export LESS="-s -X -R -F"
 
