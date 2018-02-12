@@ -12,7 +12,7 @@ export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 export MANPATH=$HOME/.local/man:$HOME/.local/share/man:$MANPATH
 
 # Completion PATH
-fpath+=$HOME/.local/etc/zsh/completions/
+fpath=( ~/.local/etc/zsh/completions "${fpath[@]}" )
 
 # Export LESS
 export LESS="-s -X -R -F"
@@ -45,7 +45,7 @@ fi
 
 # rvm
 if [ -d "$HOME/.rvm" ];then
-  export PATH="$PATH:$HOME/.rvm/bin"
+  export PATH="$HOME/.rvm/bin:$PATH"
   [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 fi
 
@@ -96,6 +96,9 @@ antigen bundle history-substring-search
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
+
+# Flatpak
+antigen bundle bil-elmoussaoui/flatpak-zsh-completion
 
 # Load the theme.
 antigen theme jnrowe

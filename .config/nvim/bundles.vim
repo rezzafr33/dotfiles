@@ -16,6 +16,7 @@ Plug 'honza/vim-snippets'
 Plug 'hsanson/vim-android'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } | Plug 'junegunn/fzf.vim'
+Plug 'vim-scripts/grep.vim'
 Plug 'mattn/emmet-vim'
 Plug 'scrooloose/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'sheerun/vim-polyglot' | Plug 'pangloss/vim-javascript' | Plug 'mxw/vim-jsx' | Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }

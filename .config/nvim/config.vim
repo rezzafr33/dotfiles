@@ -1,15 +1,15 @@
-"" Theme
+" Theme
 color dracula
 
 set guifont=UbuntuMono\ Nerd\ Font\ Regular\ 11
 set encoding=utf-8
 
-"" Chromatica
+" Chromatica
 let g:chromatica#enable_at_startup=1
 let g:chromatica#libclang_path='/usr/lib/llvm-4.0/lib/libclang.so.1'
 let g:chromatica#responsive_mode=1
 
-"" NERDTree configuration
+" NERDTree
 let g:NERDTreeChDirMode=2
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', '\.so$', '\.o$']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
@@ -28,10 +28,16 @@ let g:NERDTreeFileExtensionHighlightFullName = 1
 let g:NERDTreeExactMatchHighlightFullName = 1
 let g:NERDTreePatternMatchHighlightFullName = 1
 
-"" fzf.vim
+" fzf.vim
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
 let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+
+" grep.vim
+nnoremap <silent> <leader>f :Rgrep<CR>
+let Grep_Default_Options = '-IR'
+let Grep_Skip_Files = '*.log *.db'
+let Grep_Skip_Dirs = '.git node_modules'
 
 " The Silver Searcher
 if executable('ag')
@@ -50,7 +56,7 @@ cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>e :FZF -m<CR>
 
-"" editorconfig
+" editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 " airline 
@@ -58,12 +64,15 @@ let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#ale#error_symbol = '✗'
 let g:airline#extensions#ale#warning_symbol = '⚠'
 
-"" Ale
+" Ale
 let g:ale_linters = {'javascript': ['eslint', 'flow']}
 let g:ale_linters = {'c': [ 'gcc', 'clang' ] }
 let _c_compiler_options = '-I/usr/local/include '.
   \ '-I/usr/include/x86_64-linux-gnu '.
   \ '-I/usr/include '.
+  \ '-I/usr/include/libgda-5.0 '. 
+  \ '-I/usr/include/libgda-5.0/libgda '.
+  \ '-I/usr/include/libxml2 '.
   \ '-I/usr/include/gtk-3.0 '.
   \ '-I/usr/include/at-spi2-atk/2.0 '.
   \ '-I/usr/include/at-spi-2.0 '.
@@ -104,6 +113,7 @@ let g:ale_c_clang_options = '-Wall '.
   \ '-Wno-long-long '.
   \ '-Wno-variadic-macros '.
   \ '-Wno-unused-parameter '.
+  \ '-Wno-unused-function '.
   \ '-fexceptions '.
   \ '-DNDEBUG '.
   \ '-std=c11 '. 
@@ -115,6 +125,7 @@ let g:ale_fix_on_save=1
 let g:ale_fixers = {
   \ 'javascript': [ 'eslint', 'prettier_eslint', 'remove_trailing_lines' ],
   \ 'typescript': [ 'prettier', 'remove_trailing_lines' ],
+  \ 'php': [ 'phpcbf', 'trim_whitespace', 'remove_trailing_lines' ],
   \ 'c': [ 'clang-format', 'remove_trailing_lines' ],
   \ 'cpp': [ 'clang-format', 'remove_trailing_lines' ],
   \ 'h': [ 'clang-format', 'remove_trailing_lines' ],
@@ -124,9 +135,6 @@ let g:ale_fixers = {
 "" android classpath
 let g:ale_java_javac_classpath='~/Development/android-sdk/platforms/android-23/*.jar'
 
-
-" vim android
-let g:android_sdk_path='~/Development/android-sdk'
 
 "" error/warning sign & message
 let g:ale_sign_error = '✗'
@@ -142,6 +150,9 @@ nmap <leader>af <Plug>(ale_fix)
 nmap <leader>al <Plug>(ale_lint)
 nmap <leader>an <Plug>(ale_next)
 nmap <leader>ap <Plug>(ale_previous)
+
+" vim android
+let g:android_sdk_path='~/Development/android-sdk'
 
 " tern
 let g:tern#command = ['tern']
@@ -185,18 +196,18 @@ let g:dasht_filetype_docsets = {}
 let g:dasht_filetype_docsets['blade'] = ['html', 'php']
 let g:dasht_filetype_docsets['java'] = ['^spring_', 'hibernate']
 let g:dasht_filetype_docsets['c'] = ['^c$', 'glib', 'gdk3', 'gtk3', 'libgda', 'pango', 'gobject', 'gio']
-let g:dasht_filetype_docsets['cpp'] = ['^c$', 'glib', 'gdk3', 'gtk3', 'libgda', 'pango', 'gobject', 'gio']
+let g:dasht_filetype_docsets['cpp'] = ['^c$', '^c++$', 'glib', 'gdk3', 'gtk3', 'libgda', 'pango', 'gobject', 'gio']
 let g:dasht_filetype_docsets['javascript'] = ['react', 'react_native']
 let g:dasht_filetype_docsets['javascript.jsx'] = ['react', 'react_native']
 
 "" search related docsets
-nnoremap <silent> gz :call Dasht([expand('<cWORD>'), expand('<cword>')])<Return>
+nnoremap <silent> gZ :call Dasht([expand('<cWORD>'), expand('<cword>')])<Return>
 "" search ALL the docsets
-nnoremap <silent> gZ :call Dasht([expand('<cWORD>'), expand('<cword>')], '!')<Return>
+nnoremap <silent> gz :call Dasht([expand('<cWORD>'), expand('<cword>')], '!')<Return>
 "" search related docsets
-vnoremap <silent> gz y:<C-U>call Dasht(getreg(0))<Return>
+vnoremap <silent> gZ y:<C-U>call Dasht(getreg(0))<Return>
 "" search ALL the docsets
-vnoremap <silent> gZ y:<C-U>call Dasht(getreg(0), '!')<Return>
+vnoremap <silent> gz y:<C-U>call Dasht(getreg(0), '!')<Return>
 
 " Javacomplete
 let g:JavaComplete_GradleExecutable = 'gradle'
@@ -226,8 +237,8 @@ nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 
-"" vim-airline
-" required if using https://github.com/bling/vim-airline
+" vim-airline
+"" required if using https://github.com/bling/vim-airline
 let g:airline_powerline_fonts=1
 
 if !exists('g:airline_symbols')
@@ -265,10 +276,10 @@ else
   let g:airline_symbols.linenr = ''
 endif
 
-"" vim-jsx
+" vim-jsx
 let g:jsx_ext_required = 1
 
-"" Tiny Mode
+" Tiny Mode
 call tinymode#EnterMap("winsize", "<C-W>+", "+")
 call tinymode#EnterMap("winsize", "<C-W>-", "-")
 call tinymode#EnterMap("winsize", "<C-W>>", ">")
@@ -282,7 +293,7 @@ call tinymode#Map("winsize", "+", "[N]wincmd +")
 call tinymode#Map("winsize", "-", "[N]wincmd -")
 call tinymode#ModeMsg("winsize", "Change window size +/-")
 
-"" omnifuncs
+" omnifuncs
 augroup omnifuncs
   autocmd!
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
