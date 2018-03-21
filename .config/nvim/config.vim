@@ -6,7 +6,7 @@ set encoding=utf-8
 
 " Chromatica
 let g:chromatica#enable_at_startup=1
-let g:chromatica#libclang_path='/usr/lib/llvm-4.0/lib/libclang.so.1'
+let g:chromatica#libclang_path='/usr/lib/x86_64-linux-gnu/libclang-6.0.so.1'
 let g:chromatica#responsive_mode=1
 
 " NERDTree
