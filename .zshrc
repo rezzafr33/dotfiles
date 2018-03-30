@@ -2,8 +2,8 @@
 stty -ixon
 
 # load completion function
-autoload -U +X compinit && compinit
-autoload -U +X bashcompinit && bashcompinit
+#autoload -U +X compinit && compinit
+#autoload -U +X bashcompinit && bashcompinit
 
 # local PATH
 export PATH=$HOME/bin:$HOME/.local/bin:$PATH
@@ -79,29 +79,49 @@ if [[ -s "$HOME/Development/cmakepp" ]]; then
   export CMAKEPP_PATH=$HOME/Development/cmakepp/cmakepp.cmake
 fi
 
-# ANTIGEN
-source ~/.antigen/antigen/antigen.zsh
+# ZPLUG
+# Check if zplug is installed
+if [[ ! -f ~/.zplug/init.zsh ]]; then
+  git clone https://github.com/b4b4r07/zplug ~/.zplug
+  source ~/.zplug/init.zsh
+else
+  # Load ZPLUG
+  source ~/.zplug/init.zsh
+fi
 
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
+# Add zplug plugins
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle git
-antigen bundle pip
-antigen bundle command-not-found
-antigen bundle wp-cli
-antigen bundle nvm
-antigen bundle history
-antigen bundle history-substring-search
+# OMZ Libs
+zplug "lib/clipboard", from:oh-my-zsh, defer:0
+#zplug "lib/compfix", from:oh-my-zsh, defer:0
+#zplug "lib/completion", from:oh-my-zsh, defer:0
+zplug "lib/directories", from:oh-my-zsh, defer:0
+zplug "lib/functions", from:oh-my-zsh, defer:0
+zplug "lib/grep", from:oh-my-zsh, defer:0
+zplug "lib/history", from:oh-my-zsh, defer:0
+zplug "lib/key-bindings", from:oh-my-zsh, defer:0
+zplug "lib/misc", from:oh-my-zsh, defer:0
+zplug "lib/termsupport", from:oh-my-zsh, defer:0
+zplug "lib/theme-and-appearance", from:oh-my-zsh, defer:0
 
-# Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-syntax-highlighting
+# Theme
+zplug "themes/robbyrussell", from:oh-my-zsh
 
-# Flatpak
-antigen bundle bil-elmoussaoui/flatpak-zsh-completion
+# Basic utils
+zplug "plugins/colored-man-pages", from:oh-my-zsh
+zplug "plugins/git", from:oh-my-zsh
+zplug "plugins/history", from:oh-my-zsh
+zplug "plugins/history-substring-search", from:oh-my-zsh, as:plugin
+zplug "plugins/ssh-agent", from:oh-my-zsh, if:"which ssh-agent"
+zplug "plugins/sudo", from:oh-my-zsh
+zplug "plugins/tmux", from:oh-my-zsh, if:"which tmux", defer:2
+zplug "plugins/urltools", from:oh-my-zsh
+zplug "plugins/wp-cli", from:oh-my-zsh, if:"which wp", defer:2
+zplug "plugins/z", from:oh-my-zsh
 
-# Load the theme.
-antigen theme jnrowe
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "bil-elmoussaoui/flatpak-zsh-completion", if:"which flatpak", use:"flatpak/flatpak.plugin.zsh", defer:2
 
-# Tell antigen that you're done.
-antigen apply
+# Then, source packages and add commands to $PATH
+zplug load --verbose
