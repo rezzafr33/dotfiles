@@ -102,26 +102,28 @@ zplug "lib/grep", from:oh-my-zsh, defer:0
 zplug "lib/history", from:oh-my-zsh, defer:0
 zplug "lib/key-bindings", from:oh-my-zsh, defer:0
 zplug "lib/misc", from:oh-my-zsh, defer:0
+zplug "lib/nvm", from:oh-my-zsh, defer:0
 zplug "lib/termsupport", from:oh-my-zsh, defer:0
 zplug "lib/theme-and-appearance", from:oh-my-zsh, defer:0
 
 # Theme
 zplug "themes/robbyrussell", from:oh-my-zsh
 
-# Basic utils
+# Plugins
 zplug "plugins/colored-man-pages", from:oh-my-zsh
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/history", from:oh-my-zsh
 zplug "plugins/history-substring-search", from:oh-my-zsh, as:plugin
+zplug "plugins/nvm", from:oh-my-zsh, if:"which wp", defer:2
+zplug "plugins/rvm", from:oh-my-zsh, if:"which wp", defer:2
 zplug "plugins/ssh-agent", from:oh-my-zsh, if:"which ssh-agent"
 zplug "plugins/sudo", from:oh-my-zsh
 zplug "plugins/tmux", from:oh-my-zsh, if:"which tmux", defer:2
 zplug "plugins/urltools", from:oh-my-zsh
 zplug "plugins/wp-cli", from:oh-my-zsh, if:"which wp", defer:2
 zplug "plugins/z", from:oh-my-zsh
-
-zplug "zsh-users/zsh-syntax-highlighting"
 zplug "bil-elmoussaoui/flatpak-zsh-completion", if:"which flatpak", use:"flatpak/flatpak.plugin.zsh", defer:2
+zplug "zsh-users/zsh-syntax-highlighting", defer:3
 
 # Then, source packages and add commands to $PATH
-zplug load --verbose
+zplug load #--verbose
