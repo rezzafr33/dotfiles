@@ -67,6 +67,7 @@ let g:airline#extensions#ale#warning_symbol = '⚠'
 " Ale
 let g:ale_linters = {'javascript': ['eslint', 'flow']}
 let g:ale_linters = {'c': [ 'gcc', 'clang' ] }
+let g:ale_c_clangformat_executable = "clang-format-6.0"
 let _c_compiler_options = '-I/usr/local/include '.
   \ '-I/usr/include/x86_64-linux-gnu '.
   \ '-I/usr/include '.
