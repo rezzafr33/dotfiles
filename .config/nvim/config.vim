@@ -54,7 +54,9 @@ endif
 
 cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <leader>t :Tags<CR>
 nnoremap <silent> <leader>e :FZF -m<CR>
+nnoremap <F4> :TagbarToggle<CR>
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
@@ -63,6 +65,11 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#ale#error_symbol = '✗'
 let g:airline#extensions#ale#warning_symbol = '⚠'
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline#extensions#tmuxline#enabled = 0
+let g:airline_powerline_fonts = 1
 
 " Ale
 let g:ale_linters = {'javascript': ['eslint', 'flow']}
@@ -229,6 +236,22 @@ function ExpandSnippetOrCarriageReturn()
   endif
 endfunction
 inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
+
+" CompleteParameter
+inoremap <silent><expr> ( complete_parameter#pre_complete("()")
+"smap <c-n> <Plug>(complete_parameter#goto_next_parameter)
+"imap <c-n> <Plug>(complete_parameter#goto_next_parameter)
+"smap <c-b> <Plug>(complete_parameter#goto_previous_parameter)
+"imap <c-b> <Plug>(complete_parameter#goto_previous_parameter)
+let g:complete_parameter_use_ultisnips_mapping = 1
+
+" UltiSnips
+let g:UltiSnipsJumpForwardTrigger="<c-n>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+
+" AutoPairs
+let g:AutoPairs = {'[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+inoremap <buffer><silent> ) <C-R>=AutoPairsInsert(')')<CR>
 
 "" Tmux Navigator
 let g:tmux_navigator_no_mappings = 1
