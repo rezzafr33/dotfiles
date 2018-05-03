@@ -110,6 +110,9 @@ zplug "lib/theme-and-appearance", from:oh-my-zsh, defer:0
 zplug "themes/robbyrussell", from:oh-my-zsh
 
 # Plugins
+#zplug "plugins/tmux", from:oh-my-zsh, if:"which tmux", defer:2
+zplug "bil-elmoussaoui/flatpak-zsh-completion", if:"which flatpak", use:"flatpak/flatpak.plugin.zsh", defer:2
+zplug "pawel-slowik/zsh-term-title", if:"which tmux", use:"term-title.plugin.zsh", defer:2
 zplug "plugins/colored-man-pages", from:oh-my-zsh
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/history", from:oh-my-zsh
@@ -118,11 +121,9 @@ zplug "plugins/nvm", from:oh-my-zsh, if:"which wp", defer:2
 zplug "plugins/rvm", from:oh-my-zsh, if:"which wp", defer:2
 zplug "plugins/ssh-agent", from:oh-my-zsh, if:"which ssh-agent"
 zplug "plugins/sudo", from:oh-my-zsh
-zplug "plugins/tmux", from:oh-my-zsh, if:"which tmux", defer:2
 zplug "plugins/urltools", from:oh-my-zsh
 zplug "plugins/wp-cli", from:oh-my-zsh, if:"which wp", defer:2
 zplug "plugins/z", from:oh-my-zsh
-zplug "bil-elmoussaoui/flatpak-zsh-completion", if:"which flatpak", use:"flatpak/flatpak.plugin.zsh", defer:2
 zplug "zsh-users/zsh-syntax-highlighting", defer:3
 
 # Then, source packages and add commands to $PATH
