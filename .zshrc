@@ -2,8 +2,12 @@
 stty -ixon
 
 # load completion function
-#autoload -U +X compinit && compinit
-#autoload -U +X bashcompinit && bashcompinit
+# autoload -U +X compinit && compinit
+# autoload -U +X bashcompinit && bashcompinit
+
+#if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+#  source /etc/profile.d/vte.sh
+#fi
 
 # local PATH
 export PATH=$HOME/bin:$HOME/.local/bin:$PATH
@@ -43,12 +47,6 @@ if [ -d "$HOME/.yarn/bin" ];then
   export PATH=$HOME/.yarn/bin:$PATH
 fi
 
-# rvm
-if [ -d "$HOME/.rvm" ];then
-  export PATH="$HOME/.rvm/bin:$PATH"
-  [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-fi
-
 # NVM
 if [ -d "$HOME/.nvm" ];then
   export NVM_DIR="$HOME/.nvm"
@@ -66,10 +64,24 @@ if [ -d "/snap/bin" ]; then
   export PATH=/snap/bin:$PATH
 fi
 
-# Dircolors
-if [[ -s "$HOME/.dir_colors/dircolors" ]]; then
-  eval `dircolors $HOME/.dir_colors/dircolors`
+# GO
+if [ -d "$HOME/Development/go" ]; then
+  export GOROOT=$HOME/Development/go
+  export PATH=$PATH:$GOROOT/bin
+  export GOPATH=$HOME/go
+  export GOBIN=$GOPATH/bin
 fi
+
+# Dircolors
+#if [[ -s "$HOME/.dir_colors/dircolors" ]]; then
+#  eval `dircolors $HOME/.dir_colors/dircolors`
+#fi
+
+export WINEDEBUG=-all
+
+#if [ -f "$HOME/.controller_config" ]; then
+#. "$HOME/.controller_config"
+#fi
 
 if [[ -s "$HOME/Development/cmakepp" ]]; then
   alias icmakepp="cmake -P $HOME/Development/cmakepp/cmakepp.cmake icmake"
@@ -89,13 +101,17 @@ else
   source ~/.zplug/init.zsh
 fi
 
+#if [[ ! -f ~/.dir_colors/dircolors ]]; then
+#  eval `dircolors ~/.dir_colors/dircolors`
+#fi
+
 # Add zplug plugins
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
 # OMZ Libs
 zplug "lib/clipboard", from:oh-my-zsh, defer:0
-#zplug "lib/compfix", from:oh-my-zsh, defer:0
-#zplug "lib/completion", from:oh-my-zsh, defer:0
+zplug "lib/compfix", from:oh-my-zsh, defer:3
+zplug "lib/completion", from:oh-my-zsh, defer:3
 zplug "lib/directories", from:oh-my-zsh, defer:0
 zplug "lib/functions", from:oh-my-zsh, defer:0
 zplug "lib/grep", from:oh-my-zsh, defer:0
@@ -117,14 +133,28 @@ zplug "plugins/colored-man-pages", from:oh-my-zsh
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/history", from:oh-my-zsh
 zplug "plugins/history-substring-search", from:oh-my-zsh, as:plugin
-zplug "plugins/nvm", from:oh-my-zsh, if:"which wp", defer:2
-zplug "plugins/rvm", from:oh-my-zsh, if:"which wp", defer:2
+zplug "plugins/nvm", from:oh-my-zsh, if:"which nvm", defer:2
+zplug "plugins/rvm", from:oh-my-zsh, if:"which rvm", defer:2
+zplug "plugins/yarn", from:oh-my-zsh, if:"which yarn", defer:2
 zplug "plugins/ssh-agent", from:oh-my-zsh, if:"which ssh-agent"
 zplug "plugins/sudo", from:oh-my-zsh
 zplug "plugins/urltools", from:oh-my-zsh
 zplug "plugins/wp-cli", from:oh-my-zsh, if:"which wp", defer:2
 zplug "plugins/z", from:oh-my-zsh
-zplug "zsh-users/zsh-syntax-highlighting", defer:3
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
 # Then, source packages and add commands to $PATH
 zplug load #--verbose
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# rvm
+if [ -d "$HOME/.rvm" ];then
+  # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+  export PATH="$PATH:$HOME/.rvm/bin"
+
+  [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+fi
+
+umask 002
+

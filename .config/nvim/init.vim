@@ -24,6 +24,11 @@ if filereadable(expand("~/.config/nvim/bundles.vim"))
   source ~/.config/nvim/bundles.vim
 endif
 
+if filereadable(expand("~/.config/nvim/coc-extensions.vim"))
+  source ~/.config/nvim/coc-extensions.vim
+endif
+
+
 call plug#end()
 
 "*****************************************************************************
@@ -52,6 +57,8 @@ set mouse=a
 "" Copy/Paste/Cut
 if has('unnamedplus')
   set clipboard=unnamed,unnamedplus
+  "fix for yankring and neovim
+  let g:yankring_clipboard_monitor=0
 endif
 
 noremap YY "+y<CR>
@@ -78,7 +85,17 @@ set smartcase
 
 "" Directories for swp files
 set nobackup
+set nowritebackup
 set noswapfile
+
+"" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+
+"" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+"" Don't dispay mode in command line (airilne already shows it)
+set noshowmode
 
 set fileformats=unix,dos,mac
 

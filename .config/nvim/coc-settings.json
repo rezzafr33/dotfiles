@@ -1,0 +1,33 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "javascript",
+    "javascriptreact",
+    "json",
+    "Markdown",
+    "typescript",
+    "typescriptreact"
+  ],
+  "diagnostic.refreshOnInsertMode": true,
+  "diagnostic.signOffset": 9999999,
+  "diagnostic.errorSign": "",
+  "diagnostic.warningSign": "",
+  "diagnostic.infoSign": "",
+  "eslint.filetypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "javascript.suggestionActions.enabled": false,
+  "suggest.acceptSuggestionOnCommitCharacter": true,
+  "suggest.echodocSupport": true,
+  "suggest.maxCompleteItemCount": 20,
+  "suggest.timeout": 500,
+  "suggest.snippetIndicator": "►",
+  "suggest.triggerAfterInsertEnter": true,
+  "emmet.includeLanguages": {
+    "vue-html": "html",
+    "javascript": "javascriptreact"
+  }
+}

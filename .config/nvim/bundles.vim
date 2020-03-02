@@ -1,31 +1,46 @@
-Plug 'Edkolev/tmuxline.vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } | Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'], 'do': 'npm install -g tern' }
-Plug 'Shougo/neoinclude.vim'
-Plug 'SirVer/ultisnips'
-Plug 'Valloric/YouCompleteMe'
-Plug 'airblade/vim-gitgutter'
-Plug 'ap/vim-css-color'
-Plug 'artur-shaik/vim-javacomplete2'
-Plug 'ashisha/image.vim'
-Plug 'christoomey/vim-tmux-navigator' 
-Plug 'dracula/vim'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'freitass/todo.txt-vim'
-Plug 'honza/vim-snippets'
-Plug 'hsanson/vim-android'
-Plug 'jiangmiao/auto-pairs'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } | Plug 'junegunn/fzf.vim'
-Plug 'majutsushi/tagbar'
-Plug 'mattn/emmet-vim'
-Plug 'sheerun/vim-polyglot' | Plug 'pangloss/vim-javascript' | Plug 'mxw/vim-jsx' | Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] } | Plug 'arakashic/chromatica.nvim'
-Plug 'stfl/meson.vim'
-Plug 'sunaku/vim-dasht'
-Plug 'tenfyzhong/CompleteParameter.vim'
-Plug 'ternjs/tern_for_vim'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-markdown'
-Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes' | Plug 'scrooloose/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'vim-scripts/grep.vim'
-Plug 'vim-scripts/gtk-vim-syntax'
-Plug 'vim-scripts/tinymode.vim'
-Plug 'w0rp/ale'
+" Theme {{{ "
+  Plug 'morhetz/gruvbox'
+" }}} "
+
+" Completion {{{ "
+  Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+  Plug 'neoclide/coc-denite'
+  Plug 'Shougo/echodoc.vim'
+" }}} "
+
+" Util {{{ "
+  Plug 'Edkolev/tmuxline.vim'
+  Plug 'Shougo/denite.nvim' 
+  Plug 'christoomey/vim-tmux-navigator'
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' } | Plug 'junegunn/fzf.vim'
+  Plug 'majutsushi/tagbar'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'scrooloose/nerdtree' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight' | Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'tpope/vim-eunuch'
+  Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+  Plug 'vim-scripts/grep.vim'
+  Plug 'vim-scripts/tinymode.vim'
+" }}} "
+
+" Git {{{ "
+  Plug 'mhinz/vim-signify'
+  Plug 'tpope/vim-fugitive'
+" }}} "
+
+" Snippet {{{ "
+  Plug 'honza/vim-snippets'
+" }}} "
+
+" Editing {{{ "
+  Plug 'Raimondi/delimitMate'
+  Plug 'Yggdroot/indentLine'
+  Plug 'andymass/vim-matchup'
+  Plug 'easymotion/vim-easymotion'
+" }}} "
+
+" Syntax {{{ "
+  Plug 'ianks/vim-tsx'
+  Plug 'leafgarland/typescript-vim'
+  Plug 'neoclide/vim-jsx-improve'
+  Plug 'sheerun/vim-polyglot'
+" }}} "
