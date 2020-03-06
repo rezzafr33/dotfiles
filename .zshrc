@@ -38,7 +38,7 @@ if [ -d "$HOME/Development/android-sdk" ];then
 fi
 
 # composer
-if [ -d "$HOME/.config/composer/bin" ];then
+if [ -d "$HOME/.config/composer/vendor/bin" ];then
   export PATH=$HOME/.config/composer/vendor/bin:$PATH
 fi
 
@@ -109,16 +109,20 @@ fi
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
 # OMZ Libs
+zplug "lib/bzr", from:oh-my-zsh, defer:0
 zplug "lib/clipboard", from:oh-my-zsh, defer:0
 zplug "lib/compfix", from:oh-my-zsh, defer:3
 zplug "lib/completion", from:oh-my-zsh, defer:3
+zplug "lib/diagnostics", from:oh-my-zsh, defer:0
 zplug "lib/directories", from:oh-my-zsh, defer:0
 zplug "lib/functions", from:oh-my-zsh, defer:0
+zplug "lib/git", from:oh-my-zsh, defer:0
 zplug "lib/grep", from:oh-my-zsh, defer:0
 zplug "lib/history", from:oh-my-zsh, defer:0
 zplug "lib/key-bindings", from:oh-my-zsh, defer:0
 zplug "lib/misc", from:oh-my-zsh, defer:0
 zplug "lib/nvm", from:oh-my-zsh, defer:0
+zplug "lib/prompt_info_functions", from:oh-my-zsh, defer:0
 zplug "lib/termsupport", from:oh-my-zsh, defer:0
 zplug "lib/theme-and-appearance", from:oh-my-zsh, defer:0
 
@@ -142,6 +146,7 @@ zplug "plugins/urltools", from:oh-my-zsh
 zplug "plugins/wp-cli", from:oh-my-zsh, if:"which wp", defer:2
 zplug "plugins/z", from:oh-my-zsh
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/archlinux", if:"which pacman", defer:2
 
 # Then, source packages and add commands to $PATH
 zplug load #--verbose

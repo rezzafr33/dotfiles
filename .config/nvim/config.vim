@@ -1,71 +1,6 @@
-" Airline {{{ "
-  " extensions
-  let g:airline_extensions = ['branch', 'hunks', 'coc']
-  let g:airline#extensions#coc#enabled = 1
-
-  " required if using https://github.com/bling/vim-airline
-  let g:airline_powerline_fonts=1
-
-  if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-  endif
-
-  if !exists('g:airline_powerline_fonts')
-    let g:airline#extensions#tabline#left_sep = ' '
-    let g:airline#extensions#tabline#left_alt_sep = '|'
-    let g:airline_left_sep          = '▶'
-    let g:airline_left_alt_sep      = '»'
-    let g:airline_right_sep         = '◀'
-    let g:airline_right_alt_sep     = '«'
-    let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-    let g:airline#extensions#readonly#symbol   = '⊘'
-    let g:airline#extensions#linecolumn#prefix = '¶'
-    let g:airline#extensions#paste#symbol      = 'ρ'
-    let g:airline_symbols.linenr    = '␊'
-    let g:airline_symbols.branch    = '⎇'
-    let g:airline_symbols.paste     = 'ρ'
-    let g:airline_symbols.paste     = 'Þ'
-    let g:airline_symbols.paste     = '∥'
-    let g:airline_symbols.whitespace = 'Ξ'
-  else
-    let g:airline#extensions#tabline#left_sep = ''
-    let g:airline#extensions#tabline#left_alt_sep = ''
-
-    " powerline symbols {{{ "
-      let g:airline_left_sep = ''
-      let g:airline_left_alt_sep = ''
-      let g:airline_right_sep = ''
-      let g:airline_right_alt_sep = ''
-      let g:airline_symbols.branch = ''
-      let g:airline_symbols.readonly = ''
-      let g:airline_symbols.linenr = ''
-    " }}} "
-  endif
-
-  " airline {{{ "
-    let g:airline#extensions#ale#enabled = 1
-    let g:airline#extensions#ale#error_symbol = ''
-    let g:airline#extensions#ale#warning_symbol = ''
-    let g:airline#extensions#coc#warning_symbol = ''
-    let g:airline#extensions#coc#error_symbol = ''
-    let g:airline#extensions#coc#stl_format_err = '%E{[%e(#%fe)]}'
-    let g:airline#extensions#coc#stl_format_warn = '%W{[%w(#%fw)]}'
-    let g:airline#extensions#branch#enabled = 1
-    let g:airline#extensions#tabline#enabled = 1
-    let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-    let g:airline#extensions#tmuxline#snapshot_file = "~/.tmux/tmux-statusline-colors.conf"
-    let g:airline#extensions#tmuxline#enabled = 0
-    let g:airline_powerline_fonts = 1
-  " }}} "
-
-  " coc {{{ "
-    let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
-    let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
-  " }}} "
-
-  " custom {{{ "
-  " }}} "
-" }}} Airline "
+" Ruby rvm {{{ "
+  let g:ruby_host_prog = 'rvm system do neovim-ruby-host'
+" }}}"
 
 " COC {{{ "
   " Make <tab> used for trigger completion, completion confirm, snippet expand and jump like VSCode {{{ "
@@ -120,18 +55,6 @@
   " autocmd CursorHold * silent call CocActionAsync('highlight')
 " }}} COC "
 
-" Color {{{ "
-  set background=dark
-  colorscheme gruvbox
-  " MatchParen {{{ "
-    hi MatchParen guifg=red ctermfg=red guibg=none ctermbg=none cterm=italic,underline gui=italic,underline
-    augroup matchup_matchparen_highlight
-      autocmd!
-      autocmd ColorScheme * hi MatchParen guifg=red ctermfg=red guibg=none ctermbg=none cterm=italic,underline gui=italic,underline
-    augroup END
-  " }}} "
-" }}} Color "
-
 " Denite {{{ "
   call denite#custom#var('file/rec', 'command', ['rg', '--files', '--hidden', '--follow', '--glob', '!.git'])
   call denite#custom#var('buffer', 'date_format', '')
@@ -161,11 +84,6 @@
 " Echodoc {{{ "
   let g:echodoc#enable_at_startup = 1
 " }}} Echodoc "
-
-" Font {{{ "
-  set guifont=FuraCode\ Nerd\ Font\ Mono\ Medium\ 13
-  set encoding=utf-8
-" }}} Font "
 
 " FZF {{{ "
   set wildmode=list:longest,list:full
@@ -244,6 +162,7 @@
   let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
   let g:NERDTreeWinSize = 30
   let g:NERDTreeMinimalUI = 1
+  let g:NERDTreeHighlightCursorline = 1
 
   set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
   nnoremap <silent> <F2> :NERDTreeFind<CR>
@@ -254,6 +173,27 @@
     let g:NERDTreeExactMatchHighlightFullName = 1
     let g:NERDTreePatternMatchHighlightFullName = 1
   " }}} "
+
+  "" NERDTree sync with currently opened file {{{ "
+  let g:nerdtree_sync_cursorline = 1
+  " }}} "
+
+  "https://github.com/junegunn/fzf/issues/453#issuecomment-583834210
+  autocmd FileType nerdtree let t:nerdtree_winnr = bufwinnr('%')
+  autocmd BufWinEnter * call PreventBuffersInNERDTree()
+
+  function! PreventBuffersInNERDTree()
+    if bufname('#') =~ 'NERD_tree' && bufname('%') !~ 'NERD_tree'
+      \ && exists('t:nerdtree_winnr') && bufwinnr('%') == t:nerdtree_winnr
+      \ && &buftype == '' && !exists('g:launching_fzf')
+      let bufnum = bufnr('%')
+      close
+      exe 'b ' . bufnum
+      NERDTree
+    endif
+    if exists('g:launching_fzf') | unlet g:launching_fzf | endif
+  endfunction
+
 " }}} NERDTree "
 
 " Tiny Mode {{{ "
@@ -285,3 +225,322 @@
     autocmd TermOpen * setlocal nonumber norelativenumber
   augroup END
 " }}} Term "
+
+" User Interface
+"{{{lightline.vim
+"{{{functions
+function! PomodoroStatus() abort"{{{
+  if pomo#remaining_time() <=# '0'
+    return "\ue001"
+  else
+    return "\ue003 ".pomo#remaining_time()
+  endif
+endfunction"}}}
+function! CocCurrentFunction()"{{{
+  return get(b:, 'coc_current_function', '')
+endfunction"}}}
+function! Devicons_Filetype()"{{{
+  " return winwidth(0) > 70 ? (strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : 'no ft') : ''
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+endfunction"}}}
+function! Devicons_Fileformat()"{{{
+  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction"}}}
+function! Artify_active_tab_num(n) abort"{{{
+  return Artify(a:n, 'bold')." \ue0bb"
+endfunction"}}}
+function! Tab_num(n) abort"{{{
+  return a:n." \ue0bb"
+endfunction"}}}
+function! Gitbranch() abort"{{{
+  if gitbranch#name() !=# ''
+    return gitbranch#name()." \ue725"
+  else
+    return "\ue61b"
+  endif
+endfunction"}}}
+function! Artify_inactive_tab_num(n) abort"{{{
+  return Artify(a:n, 'double_struck')." \ue0bb"
+endfunction"}}}
+function! Artify_lightline_tab_filename(s) abort"{{{
+  return Artify(lightline#tab#filename(a:s), 'monospace')
+endfunction"}}}
+function! Artify_lightline_mode() abort"{{{
+  return Artify(lightline#mode(), 'monospace')
+endfunction"}}}
+function! Artify_line_percent() abort"{{{
+  return Artify(string((100*line('.'))/line('$')), 'bold')
+endfunction"}}}
+function! Artify_line_num() abort"{{{
+  return Artify(string(line('.')), 'bold')
+endfunction"}}}
+function! Artify_col_num() abort"{{{
+  return Artify(string(getcurpos()[2]), 'bold')
+endfunction"}}}
+function! Artify_gitbranch() abort"{{{
+  if gitbranch#name() !=# ''
+    return Artify(gitbranch#name(), 'monospace')." \ue725"
+  else
+    return "\ue61b"
+  endif
+endfunction"}}}
+"}}}
+augroup lightlineCustom
+  autocmd!
+  autocmd BufWritePost * call lightline_gitdiff#query_git() | call lightline#update()
+augroup END
+let g:lightline = {}
+let g:lightline.separator = { 'left': "\ue0b8", 'right': "\ue0be" }
+let g:lightline.subseparator = { 'left': "\ue0b9", 'right': "\ue0b9" }
+let g:lightline.tabline_separator = { 'left': "\ue0bc", 'right': "\ue0ba" }
+let g:lightline.tabline_subseparator = { 'left': "\ue0bb", 'right': "\ue0bb" }
+let g:lightline#ale#indicator_checking = "\uf110"
+let g:lightline#ale#indicator_warnings = "\uf529"
+let g:lightline#ale#indicator_errors = "\uf00d"
+let g:lightline#ale#indicator_ok = "\uf00c"
+let g:lightline_gitdiff#indicator_added = '+'
+let g:lightline_gitdiff#indicator_deleted = '-'
+let g:lightline_gitdiff#indicator_modified = '*'
+let g:lightline_gitdiff#min_winwidth = '70'
+let g:lightline#asyncrun#indicator_none = ''
+let g:lightline#asyncrun#indicator_run = 'Running...'
+let g:lightlineArtify = 1
+if g:lightlineArtify == 1
+  let g:lightline.active = {
+        \ 'left': [ [ 'artify_mode', 'paste' ],
+        \           [ 'readonly', 'filename', 'modified', 'fileformat', 'devicons_filetype' ] ],
+        \ 'right': [ [ 'artify_lineinfo' ],
+        \            [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok', 'pomodoro' ],
+        \           [ 'asyncrun_status', 'coc_status' ] ]
+        \ }
+  let g:lightline.inactive = {
+        \ 'left': [ [ 'filename' , 'modified', 'fileformat', 'devicons_filetype' ]],
+        \ 'right': [ [ 'artify_lineinfo' ] ]
+        \ }
+  let g:lightline.tabline = {
+        \ 'left': [ [ 'vim_logo', 'tabs' ] ],
+        \ 'right': [ [ 'artify_gitbranch' ],
+        \ [ 'gitstatus' ] ]
+        \ }
+  let g:lightline.tab = {
+        \ 'active': [ 'artify_activetabnum', 'artify_filename', 'modified' ],
+        \ 'inactive': [ 'artify_inactivetabnum', 'filename', 'modified' ] }
+else
+  let g:lightline.active = {
+        \ 'left': [ [ 'mode', 'paste' ],
+        \           [ 'readonly', 'filename', 'modified', 'fileformat', 'devicons_filetype' ] ],
+        \ 'right': [ [ 'lineinfo' ],
+        \            [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok', 'pomodoro' ],
+        \           [ 'asyncrun_status', 'coc_status' ] ]
+        \ }
+  let g:lightline.inactive = {
+        \ 'left': [ [ 'filename' , 'modified', 'fileformat', 'devicons_filetype' ]],
+        \ 'right': [ [ 'lineinfo' ] ]
+        \ }
+  let g:lightline.tabline = {
+        \ 'left': [ [ 'vim_logo', 'tabs' ] ],
+        \ 'right': [ [ 'gitbranch' ],
+        \ [ 'gitstatus' ] ]
+        \ }
+  let g:lightline.tab = {
+        \ 'active': [ 'tabnum', 'filename', 'modified' ],
+        \ 'inactive': [ 'tabnum', 'filename', 'modified' ] }
+endif
+let g:lightline.tab_component = {
+      \ }
+let g:lightline.tab_component_function = {
+      \ 'artify_activetabnum': 'Artify_active_tab_num',
+      \ 'artify_inactivetabnum': 'Artify_inactive_tab_num',
+      \ 'artify_filename': 'Artify_lightline_tab_filename',
+      \ 'filename': 'lightline#tab#filename',
+      \ 'modified': 'lightline#tab#modified',
+      \ 'readonly': 'lightline#tab#readonly',
+      \ 'tabnum': 'Tab_num'
+      \ }
+let g:lightline.component = {
+      \ 'artify_gitbranch' : '%{Artify_gitbranch()}',
+      \ 'artify_mode': '%{Artify_lightline_mode()}',
+      \ 'artify_lineinfo': "%2{Artify_line_percent()}\uf295 %3{Artify_line_num()}:%-2{Artify_col_num()}",
+      \ 'gitstatus' : '%{lightline_gitdiff#get_status()}',
+      \ 'bufinfo': '%{bufname("%")}:%{bufnr("%")}',
+      \ 'vim_logo': "\ue7c5",
+      \ 'pomodoro': '%{PomodoroStatus()}',
+      \ 'mode': '%{lightline#mode()}',
+      \ 'absolutepath': '%F',
+      \ 'relativepath': '%f',
+      \ 'filename': '%t',
+      \ 'filesize': "%{HumanSize(line2byte('$') + len(getline('$')))}",
+      \ 'fileencoding': '%{&fenc!=#""?&fenc:&enc}',
+      \ 'fileformat': '%{&fenc!=#""?&fenc:&enc}[%{&ff}]',
+      \ 'filetype': '%{&ft!=#""?&ft:"no ft"}',
+      \ 'modified': '%M',
+      \ 'bufnum': '%n',
+      \ 'paste': '%{&paste?"PASTE":""}',
+      \ 'readonly': '%R',
+      \ 'charvalue': '%b',
+      \ 'charvaluehex': '%B',
+      \ 'percent': '%2p%%',
+      \ 'percentwin': '%P',
+      \ 'spell': '%{&spell?&spelllang:""}',
+      \ 'lineinfo': '%2p%% %3l:%-2v',
+      \ 'line': '%l',
+      \ 'column': '%c',
+      \ 'close': '%999X X ',
+      \ 'winnr': '%{winnr()}'
+      \ }
+let g:lightline.component_function = {
+      \ 'gitbranch': 'Gitbranch',
+      \ 'devicons_filetype': 'Devicons_Filetype',
+      \ 'devicons_fileformat': 'Devicons_Fileformat',
+      \ 'coc_status': 'coc#status',
+      \ 'coc_currentfunction': 'CocCurrentFunction'
+      \ }
+let g:lightline.component_expand = {
+      \ 'linter_checking': 'lightline#ale#checking',
+      \ 'linter_warnings': 'lightline#ale#warnings',
+      \ 'linter_errors': 'lightline#ale#errors',
+      \ 'linter_ok': 'lightline#ale#ok',
+      \ 'asyncrun_status': 'lightline#asyncrun#status'
+      \ }
+let g:lightline.component_type = {
+      \ 'linter_warnings': 'warning',
+      \ 'linter_errors': 'error'
+      \ }
+let g:lightline.component_visible_condition = {
+      \ 'gitstatus': 'lightline_gitdiff#get_status() !=# ""'
+      \ }
+"}}}
+"{{{tmuxline.vim
+if g:vimIsInTmux == 1
+  let g:tmuxline_preset = {
+        \'a'    : '#S',
+        \'b'    : '%R',
+        \'c'    : [ '#{sysstat_mem} #[fg=blue]\ufa51#{upload_speed}' ],
+        \'win'  : [ '#I', '#W' ],
+        \'cwin' : [ '#I', '#W', '#F' ],
+        \'x'    : [ "#[fg=blue]#{download_speed} \uf6d9 #{sysstat_cpu}" ],
+        \'y'    : [ '%a' ],
+        \'z'    : '#H #{prefix_highlight}'
+        \}
+  let g:tmuxline_separators = {
+        \ 'left' : "\ue0bc",
+        \ 'left_alt': "\ue0bd",
+        \ 'right' : "\ue0ba",
+        \ 'right_alt' : "\ue0bd",
+        \ 'space' : ' '}
+endif
+"}}}
+"{{{colorscheme
+let g:vimColorScheme = 'Gruvbox Material Dark'
+let g:colorSchemeList = {}
+let g:colorSchemeList['Forest Night'] = [
+      \   'set background=dark',
+      \   'let g:forest_night_enable_italic = 1',
+      \   'let g:forest_night_disable_italic_comment = 1',
+      \   'colorscheme forest-night',
+      \   'call SwitchLightlineColorScheme("forest_night")'
+      \   ]
+let g:colorSchemeList['Gruvbox Material Dark'] = [
+      \   'set background=dark',
+      \   "let g:gruvbox_material_background = 'medium'",
+      \   "let g:gruvbox_material_visual = 'grey background'",
+      \   'let g:gruvbox_material_enable_italic = 1',
+      \   'let g:gruvbox_material_disable_italic_comment = 1',
+      \   'colorscheme gruvbox-material',
+      \   'call SwitchLightlineColorScheme("gruvbox_material")'
+      \   ]
+let g:colorSchemeList['Gruvbox Material Light'] = [
+      \   'set background=light',
+      \   "let g:gruvbox_material_background = 'soft'",
+      \   "let g:gruvbox_material_visual = 'green background'",
+      \   'let g:gruvbox_material_enable_italic = 1',
+      \   'let g:gruvbox_material_disable_italic_comment = 1',
+      \   'colorscheme gruvbox-material',
+      \   'call SwitchLightlineColorScheme("gruvbox_material")'
+      \   ]
+let g:colorSchemeList['Edge Dark'] = [
+      \   'set background=dark',
+      \   'let g:edge_disable_italic_comment = 1',
+      \   'let g:edge_enable_italic = 1',
+      \   'colorscheme edge',
+      \   'call SwitchLightlineColorScheme("edge")'
+      \   ]
+let g:colorSchemeList['Edge Light'] = [
+      \   'set background=light',
+      \   'let g:edge_disable_italic_comment = 1',
+      \   'let g:edge_enable_italic = 1',
+      \   'colorscheme edge',
+      \   'call SwitchLightlineColorScheme("edge")'
+      \   ]
+let g:colorSchemeList['Sonokai Shusia'] = [
+      \   "let g:sonokai_style = 'shusia'",
+      \   'let g:sonokai_disable_italic_comment = 1',
+      \   'let g:sonokai_enable_italic = 1',
+      \   'colorscheme sonokai',
+      \   'call SwitchLightlineColorScheme("sonokai")'
+      \   ]
+let g:colorSchemeList['Sonokai Andromeda'] = [
+      \   "let g:sonokai_style = 'andromeda'",
+      \   'let g:sonokai_disable_italic_comment = 1',
+      \   'let g:sonokai_enable_italic = 1',
+      \   'colorscheme sonokai',
+      \   'call SwitchLightlineColorScheme("sonokai")'
+      \   ]
+let g:colorSchemeList['Sonokai Atlantis'] = [
+      \   "let g:sonokai_style = 'atlantis'",
+      \   'let g:sonokai_disable_italic_comment = 1',
+      \   'let g:sonokai_enable_italic = 1',
+      \   'colorscheme sonokai',
+      \   'call SwitchLightlineColorScheme("sonokai")'
+      \   ]
+let g:colorSchemeList['Sonokai Maia'] = [
+      \   "let g:sonokai_style = 'maia'",
+      \   'let g:sonokai_disable_italic_comment = 1',
+      \   'let g:sonokai_enable_italic = 1',
+      \   'colorscheme sonokai',
+      \   'call SwitchLightlineColorScheme("sonokai")'
+      \   ]
+"{{{Functions
+function SwitchLightlineColorScheme(lightlineName) abort
+  execute join(['source', globpath(&runtimepath, join(['autoload/lightline/colorscheme/', a:lightlineName, '.vim'], ''), 0, 1)[0]], ' ')
+  let g:lightline.colorscheme = a:lightlineName
+  call lightline#init()
+  call lightline#colorscheme()
+  call lightline#update()
+endfunction
+function SwitchColorScheme(name) abort
+  for l:item in g:colorSchemeList[a:name]
+    execute l:item
+  endfor
+endfunction
+function! s:Colo(a, l, p)
+  return keys(g:colorSchemeList)
+endfunction
+command! -bar -nargs=? -complete=customlist,<sid>Colo Colo call SwitchColorScheme(<f-args>)
+call SwitchColorScheme(g:vimColorScheme)
+"}}}
+"}}}
+"{{{vim-hexokinase
+let g:Hexokinase_highlighters = ['backgroundfull']  " ['virtual', 'sign_column', 'background', 'foreground', 'foregroundfull']
+let g:Hexokinase_ftAutoload = ['html', 'css', 'javascript', 'vim', 'colortemplate', 'json', 'yaml', 'toml']  " ['*']
+let g:Hexokinase_refreshEvents = ['BufWritePost']
+let g:Hexokinase_optInPatterns = ['full_hex', 'triple_hex', 'rgb', 'rgba']  " ['full_hex', 'triple_hex', 'rgb', 'rgba', 'colour_names']
+nnoremap <silent> <leader><space>H :<c-u>HexokinaseToggle<cr>
+"}}}
+
+"{{{pomodoro.vim
+let g:Pomodoro_Status = 0
+function! Toggle_Pomodoro()
+  if g:Pomodoro_Status == 0
+    let g:Pomodoro_Status = 1
+    execute 'PomodoroStart'
+  elseif g:Pomodoro_Status == 1
+    let g:Pomodoro_Status = 0
+    execute 'PomodoroStop'
+  endif
+endfunction
+let g:pomodoro_time_work = 25
+let g:pomodoro_time_slack = 5
+nnoremap <silent> <leader><space>P :<c-u>call Toggle_Pomodoro()<cr>
+"}}}
+

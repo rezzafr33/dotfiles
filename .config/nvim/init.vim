@@ -28,7 +28,6 @@ if filereadable(expand("~/.config/nvim/coc-extensions.vim"))
   source ~/.config/nvim/coc-extensions.vim
 endif
 
-
 call plug#end()
 
 "*****************************************************************************
@@ -50,6 +49,12 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set expandtab
+
+"" Vim Tab
+set showtabline=2
+
+"" Vim status
+set laststatus=2
 
 "" Mouse support
 set mouse=a
@@ -135,6 +140,16 @@ set number
 "" Disable the blinking cursor.
 set gcr=a:blinkon0
 set scrolloff=3
+
+if executable('tmux') && filereadable(expand('~/.zshrc')) && $TMUX !=# ''
+  let g:vimIsInTmux = 1
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+else
+  let g:vimIsInTmux = 0
+endif
+
 
 "*****************************************************************************
 "" Abbreviations
