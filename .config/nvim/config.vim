@@ -1,6 +1,10 @@
+" EditorConfig {{{ "
+  let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+" }}} "
+
 " Ruby rvm {{{ "
   let g:ruby_host_prog = 'rvm system do neovim-ruby-host'
-" }}}"
+" }}} "
 
 " COC {{{ "
   " Make <tab> used for trigger completion, completion confirm, snippet expand and jump like VSCode {{{ "
@@ -210,15 +214,6 @@
   call tinymode#Map("winsize", "-", "[N]wincmd -")
   call tinymode#ModeMsg("winsize", "Change window size +/-")
 " }}} Tiny Mode "
-
-" Tmux Navigator {{{ "
-  let g:tmux_navigator_no_mappings = 1
-  nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
-  nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
-  nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
-  nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
-  nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
-" }}} Tmux Navigator "
 
 " Term {{{ "
   augroup TerminalStuff
@@ -544,3 +539,11 @@ let g:pomodoro_time_slack = 5
 nnoremap <silent> <leader><space>P :<c-u>call Toggle_Pomodoro()<cr>
 "}}}
 
+" Tmux Navigator {{{ "
+  let g:tmux_navigator_no_mappings = 1
+  nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
+  nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+  nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+  nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+  nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
+" }}} Tmux Navigator "

@@ -34,6 +34,8 @@ Plug 'scrooloose/nerdtree' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight' | Pl
 Plug 'tpope/vim-eunuch'
 Plug 'vim-scripts/grep.vim'
 Plug 'vim-scripts/tinymode.vim'
+Plug 'lambdalisue/suda.vim'
+Plug 'editorconfig/editorconfig-vim'
 " }}} "
 
 " Git {{{ "
